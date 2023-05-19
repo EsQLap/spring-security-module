@@ -23,6 +23,8 @@ security:
   anonymous-paths:
     - "/actuator/**"
     - "/image/public/**"
+  use-x-auth-token: true
+  disable-post-auth-redirect: true
 ###
 images:
   clean-on-destroy: true

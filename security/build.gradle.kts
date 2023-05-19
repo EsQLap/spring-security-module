@@ -1,15 +1,20 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id("org.springframework.boot") version "2.6.10" apply false
-    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    // TODO: Обновить до 3.2, будет куча ошибок
+    id("org.springframework.boot") version "2.6.14" apply false
+    id("io.spring.dependency-management") version "1.1.0"
     id("java-library")
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
+    kotlin("plugin.jpa") version "1.7.10"
 }
 
 group = "ru.virgil"
-version = "0.4.0-SNAPSHOT"
+version = "0.5.2-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -56,13 +61,21 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.session:spring-session-core")
+    implementation("org.springframework.session:spring-session-hazelcast")
     implementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.security:spring-security-test")
+    implementation("com.hazelcast:hazelcast")
     runtimeOnly("org.postgresql:postgresql")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    testCompileOnly("org.projectlombok:lombok")
-    testAnnotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    implementation(kotlin("stdlib-jdk8"))
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "17"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "17"
 }

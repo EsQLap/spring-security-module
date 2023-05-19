@@ -1,10 +1,14 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.10"
-    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("org.springframework.boot") version "2.6.14"
+    id("io.spring.dependency-management") version "1.1.0"
     id("java")
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
+    kotlin("plugin.jpa") version "1.7.10"
 }
 
 group = "ru.virgil"
@@ -19,14 +23,6 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
-}
-
-tasks.withType<JavaCompile> {
-    options.compilerArgs.addAll(
-        arrayOf(
-            "-Amapstruct.defaultComponentModel=spring"
-        )
-    )
 }
 
 repositories {
@@ -54,9 +50,6 @@ dependencies {
     implementation("com.google.truth:truth:1.1.3")
     implementation("com.google.firebase:firebase-admin:9.0.0")
     implementation("net.datafaker:datafaker:1.4.0")
-    implementation("org.mapstruct:mapstruct:1.5.2.Final")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.2.Final")
-    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     implementation("org.apache.tika:tika-core:2.4.1")
     implementation("org.apache.tika:tika-parsers:2.4.1")
 
@@ -72,10 +65,23 @@ dependencies {
     implementation("org.springframework.session:spring-session-core")
     runtimeOnly("org.postgresql:postgresql")
     implementation("com.h2database:h2")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    testCompileOnly("org.projectlombok:lombok")
-    testAnnotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+
+    // Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    // Исправляет проблемы методов Kotlin?
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.7.8"))
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "17"
+}
+
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "17"
 }

@@ -40,6 +40,7 @@ public class RequestUtil {
     public BodyStepJsonStart delete(String path) {
         return startJsonBuilding(RequestMethod.DELETE, path);
     }
+
     public BodyStepMultipartStart postMultipart(String path) {
         return startMultipartBuilding(RequestMethod.POST_MULTIPART, path);
     }

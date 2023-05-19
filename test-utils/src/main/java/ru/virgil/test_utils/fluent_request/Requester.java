@@ -3,7 +3,6 @@ package ru.virgil.test_utils.fluent_request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class Requester {
 
     private final MockMvc mockMvc;
     private final TestUtils testUtils;
-    private final ObjectMapper jackson = new ObjectMapper();
+    private final ObjectMapper jackson;
 
     private MockHttpServletRequestBuilder getHttpBuilder(RequestMethod requestMethod, String url) {
         return switch (requestMethod) {
