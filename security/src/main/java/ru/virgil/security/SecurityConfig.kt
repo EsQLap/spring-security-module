@@ -34,6 +34,8 @@ class SecurityConfig(
         val propertyIgnoredPaths: List<String> = securityProperties.anonymousPaths
         httpSecurity // todo: стандартный редирект на страницу успешной безопасности
             // todo: разобраться, как включить
+            .cors()
+            .and()
             .csrf().disable()
             .authorizeRequests()
             .mvcMatchers(*AUTH_PAGE_PATHS.values.toTypedArray()).permitAll()
@@ -65,7 +67,6 @@ class SecurityConfig(
         resultCorsConfiguration.allowedOrigins = listOf(ORIGIN)
         resultCorsConfiguration.allowedHeaders = listOf(X_AUTH_TOKEN_HEADER)
         resultCorsConfiguration.allowedMethods = HttpMethod.values().map { obj: HttpMethod -> obj.name }
-        resultCorsConfiguration.allowCredentials = true
         return resultCorsConfiguration
     }
 
@@ -75,7 +76,6 @@ class SecurityConfig(
         authCorsConfiguration.allowedMethods = listOf(HttpMethod.POST.name)
         authCorsConfiguration.allowedHeaders = listOf(HttpHeaders.AUTHORIZATION)
         authCorsConfiguration.exposedHeaders = listOf(X_AUTH_TOKEN_HEADER)
-        authCorsConfiguration.allowCredentials = true
         return authCorsConfiguration
     }
 
