@@ -65,7 +65,7 @@ class SecurityConfig(
     private fun buildResultCorsConfiguration(): CorsConfiguration {
         val resultCorsConfiguration = CorsConfiguration()
         resultCorsConfiguration.allowedOrigins = listOf(ORIGIN)
-        resultCorsConfiguration.allowedHeaders = listOf(X_AUTH_TOKEN_HEADER)
+        resultCorsConfiguration.allowedHeaders = listOf(X_AUTH_TOKEN_HEADER, HttpHeaders.CONTENT_TYPE)
         resultCorsConfiguration.allowedMethods = HttpMethod.values().map { obj: HttpMethod -> obj.name }
         return resultCorsConfiguration
     }
